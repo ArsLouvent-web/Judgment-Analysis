@@ -1,0 +1,27 @@
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# Sensitive files & Secrets
+.env
+.env.*
+credentials.json
+
+# SQLite databases & Local Backups
+*.db
+*.sqlite
+*.sqlite3
+cases_backup.db
+cases_refined_backup.db
+
+# OS & Editor files
+.DS_Store
+.idea/
+.vscode/
+*.swp
