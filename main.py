@@ -1404,8 +1404,8 @@ def _is_safe_path(base_dir: str, target_path: str) -> bool:
 
 def load_analysis_detail(slug: str) -> dict | None:
     """Load and parse a single analysis by its slug (supports md, std JSON, and NPA JSON)."""
-    # Strict validation against path traversal characters (allow only alphanumeric, underscore, hyphen)
-    if not slug or not re.match(r"^[a-zA-Z0-9_\-]+$", slug):
+    # Reject directory traversal attempts, directory separators, and null bytes
+    if not slug or ".." in slug or "/" in slug or "\\" in slug or "\0" in slug:
         return None
 
     # Handle NPA JSON slugs  (npa_1, npa_2, ...)
@@ -1705,7 +1705,7 @@ async def read_analyses(request: Request):
     )
 
 
-@app.get("/analysis/{slug}", response_class=HTMLResponse)
+@app.get("/analysis/{slug:path}", response_class=HTMLResponse)
 async def read_analysis_detail(request: Request, slug: str):
     detail = load_analysis_detail(slug)
     if not detail:
